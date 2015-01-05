@@ -1,0 +1,76 @@
+<!doctype HTML>
+<html>
+<head>
+    <title>Queue Monitor</title>
+</head>
+<body>
+    <h2>{{ type }} Tasks</h2>
+    <h3>Uploads</h3>
+    <table border="1" style="width:100%">
+        <tbody>
+            <tr style="background-color:gainsboro">
+                <th>Task Seq</th>
+                <th>Task Owner</th>
+                <th>Task Init</th>
+                <th>Upload ID</th>
+                <th>Upload Status</th>
+                <th>Spool ID</th>
+                <th>Spool Status</th>
+            </tr>
+        </tbody>
+        
+        {% for doc in up_tasks %}
+            {% if doc['upload_status'] == 'active' %}
+                <tr style="background-color:aquamarine">
+            {% elif doc['upload_status'] == 'failed' or doc['spool_status'] == 'failed' %}
+                <tr style="background-color:firebrick">
+            {% else %}
+                <tr style="background-color:lightcyan">
+            {% endif %}
+                <td>{{ doc.get('task_id') }}</td>
+                <td>{{ doc.get('task_owner') }}</td>
+                <td>{{ doc.get('task_init') }}</td>
+                <td>{{ doc.get('upload_id') }}</td>
+                <td>{{ doc.get('upload_status') }}</td>
+                <td>{{ doc.get('spool_id') }} </td>
+                <td>{{ doc.get('spool_status') }}</td>
+            </tr>
+        {% endfor %}    
+
+    </table>  
+
+    <h3>Downloads</h3>
+    <table border="1" style="width:100%">
+        <tbody>
+            <tr style="background-color:gainsboro">
+                <th>Task Seq</th>
+                <th>Task Owner</th>
+                <th>Task Init</th>
+                <th>Render ID</th>
+                <th>Render Status</th>
+                <th>Download ID</th>
+                <th>Download Status</th>
+            </tr>
+        </tbody>
+        
+        {% for doc in down_tasks %}
+            {% if doc['download_status'] == 'active' %}
+                <tr style="background-color:aquamarine">
+            {% elif doc['download_status'] == 'failed' %}
+                <tr style="background-color:firebrick">
+            {% else %}
+                <tr style="background-color:lightcyan">
+            {% endif %}
+                <td>{{ doc.get('task_id') }}</td>
+                <td>{{ doc.get('task_owner') }}</td>
+                <td>{{ doc.get('task_init') }}</td>
+                <td>{{ doc.get('jid') }}</td>
+                <td></td>
+                <td>{{ doc.get('download_id') }}</td>
+                <td>{{ doc.get('download_status') }}</td>
+            </tr>
+        {% endfor %}    
+
+    </table>  
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!doctype HTML>
+<html>
+<head>
+    <title>Queue Monitor</title>
+</head>
+<body>
+    <table>
+        <th>
+            <td>Foo</td>
+            <td>Bar</td>
+            <td>Burr</td>
+            <td>Baz</td>
+        </th>
+
+    </table>    
+</body>
+</html>
