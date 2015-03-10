@@ -14,13 +14,16 @@
 <body>
     <div class="demo container" style="padding:20px;">
 
+    <div class="ui segment">
+    <a class="ui ribbon label">
     {% if stream == 'up_down' %}
-        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>
+        <h3 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h3>
     {% elif stream == 'down' %}
-        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>
+        <h3 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h3>
     {% elif stream == 'up' %}
-        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>        
+        <h3 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h3>        
     {% endif %}
+    </a>
 
 {% if stream == 'up_down' or stream == 'up' %}
     <h3 class="ui header">Uploads</h3>
@@ -110,7 +113,7 @@
 
     </table>
  {% endif %}
-
+  </div>
     </div>
 </body>
 </html>

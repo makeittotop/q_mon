@@ -13,7 +13,9 @@
 </head>
 <body>
     <div class="demo container" style="padding:20px;">
-    <h2 class="ui header">Active Tasks</h3>
+    <div class="ui segment">
+    <a class="ui ribbon label"><h3 class="ui header">Active Tasks</h3></a>
+    <!--<h2 class="ui header">Active Tasks</h3>-->
     <h3 class="ui header">Uploads</h3>
     <table class="ui celled striped table" id="upload">
         <tr>
@@ -93,8 +95,10 @@
         {% endfor %}    
         </tbody>
     </table>  
+    </div>
 
-    <h2 class="ui header">Failed Tasks</h3>
+    <div class="ui segment">
+    <a class="ui ribbon label"><h3 class="ui header">Failed Tasks</h3></a>
     <h3 class="ui header">Uploads</h3>
     <table class="ui celled striped table" >
         <tbody>
@@ -148,8 +152,10 @@
             </tr>
         {% endfor %}    
     </table>  
+    </div>
 
-    <h2 class="ui header">Done Tasks</h3>
+    <div class="ui segment">
+    <a class="ui ribbon label"><h3 class="ui header">Done Tasks</h3></a>
     <h3 class="ui header">Uploads</h3>
     <table class="ui celled striped table" >
         <tbody>
@@ -219,6 +225,8 @@
             </tr>
         {% endfor %}    
     </table>  
+    </div>
+
   </div>
 </body>
 </html>
