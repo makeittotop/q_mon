@@ -69,14 +69,18 @@ def pending(name='all'):
 @app.route('/failed')
 @app.route('/failed/<string:name>')
 def failed(name='all'):
-    (up_tasks, down_tasks) = queue_data(arg='failed', name=name, stream='up_down')
-    context = {'type' : 'Failed', 'up_tasks' : up_tasks, 'down_tasks' : down_tasks}
+    delta = 7
+    (up_tasks, down_tasks) = queue_data(arg='failed', name=name, stream='up_down', delta=delta)
+
+    context = {'type' : 'Failed', 'stream' : 'up_down', 'up_tasks' : up_tasks, 'down_tasks' : down_tasks, 'delta': delta}
     return render_template("current.html", **context)
 
 @app.route('/current')
 @app.route('/current/<string:name>')
 def current(name='all'):
-    (up_tasks, down_tasks) = queue_data(arg='current', name=name, stream='up_down')
+    delta = 7
+    (up_tasks, down_tasks) = queue_data(arg='current', name=name, stream='up_down', delta=delta)
+
     context = {'type' : 'Current', 'up_tasks' : up_tasks, 'down_tasks' : down_tasks}
     return render_template("current.html", **context)
   
@@ -211,13 +215,16 @@ def queue_data(**kwargs):
 
     elif arg == 'failed':
         if name == 'all':
-            query_dict_up = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'upload_status' : 'failed' }, { 'spool_status' : 'failed' } ] } ] }
-            query_dict_down = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'download_status' : 'failed' } ] } ] }
+            query_dict_up = { '$or' : [ { 'upload_status' : 'failed' }, { 'spool_status' : 'failed' } ] }
+            query_dict_down = { 'download_status' : 'failed' }
+         
+            #query_dict_up = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'upload_status' : 'failed' }, { 'spool_status' : 'failed' } ] } ] }
+            #query_dict_down = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'download_status' : 'failed' } ] } ] }
             #query_dict = { '$and' : [ { 'task_init' : { '$gt' : d } }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' }, { 'download_status' : 'pending' }, { 'download_status' : 'active' }, {'spool_status' : 'pending' } ] } ] }
             #query_dict = {'task_init': {'$gt' : d}, 'upload_status' : 'pending', 'dowmload_status' : 'pending', 'spool_status' : 'pending'}
         else:
-            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'upload_status' : 'failed' }, { 'spool_status' : 'failed' } ] } ] }
-            query_dict_down = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'download_status' : 'failed' } ] } ] }
+            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'upload_status' : 'failed' }, { 'spool_status' : 'failed' } ] } ] }
+            query_dict_down = { '$and' : [ { 'task_owner' : name }, { 'download_status' : 'failed' } ] }
 
 
         if 'up_down' in stream or 'up' in stream:

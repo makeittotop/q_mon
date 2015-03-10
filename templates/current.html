@@ -2,21 +2,32 @@
 <html>
 <head>
     <title>Queue Monitor</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.1/semantic.css">
+    <link rel="stylesheet" type="text/css" href="homepage.css">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="../dist/semantic.js"></script>
+    <script src="homepage.js"></script>   
+
 </head>
 <body>
+    <div class="demo container" style="padding:20px;">
+
     {% if stream == 'up_down' %}
-        <h2>Uploaded and Downloaded Tasks in Last {{ delta }} day(s)</h2>
+        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>
     {% elif stream == 'down' %}
-        <h2>Downloaded Tasks in Last {{ delta }} day(s)</h2>
+        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>
     {% elif stream == 'up' %}
-        <h2>Uploaded Tasks in Last {{ delta }} day(s)</h2>        
+        <h2 class="ui header">{{ type.upper() }} tasks in Last {{ delta }} day(s)</h2>        
     {% endif %}
 
 {% if stream == 'up_down' or stream == 'up' %}
-    <h3>Uploads</h3>
-    <table border="1" style="width:100%">
+    <h3 class="ui header">Uploads</h3>
+    <div ui two column stackable center aligned grid segment>
+    <table class="ui celled striped table">
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <!--<th>Task Init</th>-->
@@ -33,11 +44,11 @@
         
         {% for doc in up_tasks %}
             {% if doc['upload_status'] == 'active' %}
-                <tr style="background-color:aquamarine">
+                <tr class="positive">
             {% elif doc['upload_status'] == 'failed' or doc['spool_status'] == 'failed' %}
-                <tr style="background-color:firebrick">
+                <tr class="negative">
             {% else %}
-                <tr style="background-color:lightcyan">
+                <tr class="info">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
@@ -54,13 +65,14 @@
         {% endfor %}    
 
     </table>  
+</div>
 {% endif %}
 
 {% if stream == 'up_down' or stream == 'down' %}
-    <h3>Downloads</h3>
-    <table border="1" style="width:100%">
+    <h3 class="ui header">Downloads</h3>
+    <table class="ui celled striped table">
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <!--<th>Task Init</th>-->
@@ -77,11 +89,11 @@
         
         {% for doc in down_tasks %}
             {% if doc['download_status'] == 'active' %}
-                <tr style="background-color:aquamarine">
+                <tr class="positive">
             {% elif doc['download_status'] == 'failed' %}
-                <tr style="background-color:firebrick">
+                <tr class="negative">
             {% else %}
-                <tr style="background-color:lightcyan">
+                <tr class="info">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
@@ -98,6 +110,7 @@
 
     </table>
  {% endif %}
-    
+
+    </div>
 </body>
 </html>

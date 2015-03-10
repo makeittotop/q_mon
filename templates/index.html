@@ -2,13 +2,21 @@
 <html>
 <head>
     <title>Queue Monitor</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.1/semantic.css">
+    <link rel="stylesheet" type="text/css" href="homepage.css">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="../dist/semantic.js"></script>
+    <script src="homepage.js"></script>   
+
 </head>
 <body>
-    <h2>Active Tasks</h2>
-    <h3>Uploads</h3>
-    <table id="upload" border="1" style="width:100%">
-        <tr style="background-color:gainsboro">
+    <div class="demo container" style="padding:20px;">
+    <h2 class="ui header">Active Tasks</h3>
+    <h3 class="ui header">Uploads</h3>
+    <table class="ui celled striped table" id="upload">
+        <tr>
             <th>Task Seq</th>
             <th>Task Owner</th>
             <th>Upload start</th>
@@ -22,9 +30,9 @@
         <tbody>
         {% for doc in current_up_tasks %}
             {% if doc['upload_status'] == 'active' %}
-            <tr style="background-color:aquamarine">
+            <tr class="positive">
             {% else %}
-            <tr style="background-color:lightcyan">
+            <tr class="warning">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
@@ -38,17 +46,17 @@
                     <input type="hidden" id="task_type" name="task_type" value="up">
                     <input type="hidden" id="task_state" name="task_state" value={{ doc.get('upload_status') }}>
                     <input type="hidden" id="task_id" name="task_id" value={{ doc.get('upload_id') }}>
-                    <input type="submit" id="cancel_button" value="Cancel">
+                    <input class="ui button" type="submit" id="cancel_button" value="Cancel">
                   </form>
                 </td>   
             </tr>
         {% endfor %}    
         </tbody>
-    </table>  
+    </table>
 
-    <h3>Downloads</h3>
-    <table id="download" border="1" style="width:100%">
-        <tr style="background-color:gainsboro">
+    <h3 class="ui header">Downloads</h3>
+    <table class="ui celled striped table" id="download" >
+        <tr>
             <th>Task Seq</th>
             <th>Task Owner</th>
             <th>Download start</th>
@@ -62,9 +70,9 @@
         <tbody>
         {% for doc in current_down_tasks %}
             {% if doc['download_status'] == 'active' %}
-            <tr style="background-color:aquamarine">
+            <tr class="positive">
             {% else %}
-            <tr style="background-color:lightcyan">
+            <tr class="warning">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
@@ -78,7 +86,7 @@
                     <input type="hidden" id="task_type" name="task_type" value="down">
                     <input type="hidden" id="task_state" name="task_state" value={{ doc.get('download_status') }}>
                     <input type="hidden" id="task_id" name="task_id" value= {{ doc.get('download_id') }}>
-                    <input type="submit" id="cancel_button" value="Cancel">
+                    <input class="ui button" type="submit" id="cancel_button" value="Cancel">
                   </form>
                 </td>   
             </tr>
@@ -86,11 +94,11 @@
         </tbody>
     </table>  
 
-    <h2>Failed Tasks</h2>
-    <h3>Uploads</h3>
-    <table border="1" style="width:100%">
+    <h2 class="ui header">Failed Tasks</h3>
+    <h3 class="ui header">Uploads</h3>
+    <table class="ui celled striped table" >
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <th>Task Init</th>
@@ -102,7 +110,7 @@
         </tbody>
         
         {% for doc in failed_up_tasks %}
-            <tr style="background-color:firebrick">
+            <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
                 <td>{{ doc.get('task_init') }}</td>
@@ -114,10 +122,10 @@
         {% endfor %}    
     </table>  
 
-    <h3>Downloads</h3>
-    <table border="1" style="width:100%">
+    <h3 class="ui header">Downloads</h3>
+    <table class="ui celled striped table" >
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <th>Task Init</th>
@@ -129,7 +137,7 @@
         </tbody>
         
         {% for doc in failed_down_tasks %}
-            <tr style="background-color:firebrick">
+            <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
                 <td>{{ doc.get('task_init') }}</td>
@@ -141,11 +149,11 @@
         {% endfor %}    
     </table>  
 
-    <h2>Done Tasks</h2>
-    <h3>Uploads</h3>
-    <table border="1" style="width:100%">
+    <h2 class="ui header">Done Tasks</h3>
+    <h3 class="ui header">Uploads</h3>
+    <table class="ui celled striped table" >
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <!--<th>Task Init</th>-->
@@ -161,7 +169,7 @@
         </tbody>
         
         {% for doc in done_up_tasks %}
-          <tr style="background-color:lightcyan">
+          <tr class="info">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
                 <!--<td>{{ doc.get('task_init') }}</td>-->
@@ -178,10 +186,10 @@
 
     </table>  
 
-    <h3>Downloads</h3>
-    <table border="1" style="width:100%">
+    <h3 class="ui header" >Downloads</h3>
+    <table class="ui celled striped table">
         <tbody>
-            <tr style="background-color:gainsboro">
+            <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
                 <!--<th>Task Init</th>-->
@@ -197,7 +205,7 @@
         </tbody>
         
         {% for doc in done_down_tasks %}
-            <tr style="background-color:lightcyan">
+            <tr class="info">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
                 <!--<td>{{ doc.get('task_init') }}</td>-->
@@ -211,5 +219,6 @@
             </tr>
         {% endfor %}    
     </table>  
+  </div>
 </body>
 </html>
