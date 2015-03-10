@@ -2,69 +2,88 @@
 <html>
 <head>
     <title>Queue Monitor</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
     <h2>Active Tasks</h2>
     <h3>Uploads</h3>
-    <table border="1" style="width:100%">
-        <tbody>
-            <tr style="background-color:gainsboro">
-                <th>Task Seq</th>
-                <th>Task Owner</th>
-                <th>Task Init</th>
-                <th>Upload ID</th>
-                <th>Upload Status</th>
-                <th>Spool ID</th>
-                <th>Spool Status</th>
-            </tr>
-        </tbody>
+    <table id="upload" border="1" style="width:100%">
+        <tr style="background-color:gainsboro">
+            <th>Task Seq</th>
+            <th>Task Owner</th>
+            <th>Upload start</th>
+            <th>Upload ID</th>
+            <th>Upload Status</th>
+            <th>Spool ID</th>
+            <th>Spool Status</th>
+            <th></th>
+        </tr>
         
+        <tbody>
         {% for doc in current_up_tasks %}
             {% if doc['upload_status'] == 'active' %}
-                <tr style="background-color:aquamarine">
+            <tr style="background-color:aquamarine">
             {% else %}
-                <tr style="background-color:lightcyan">
+            <tr style="background-color:lightcyan">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <td>{{ doc.get('upload_start') }}</td>
                 <td>{{ doc.get('upload_id') }}</td>
                 <td>{{ doc.get('upload_status') }}</td>
                 <td>{{ doc.get('spool_id') }} </td>
                 <td>{{ doc.get('spool_status') }}</td>
+                <td>
+                  <form action="/cancel/", method="POST", name="cancel_form">
+                    <input type="hidden" id="task_type" name="task_type" value="up">
+                    <input type="hidden" id="task_state" name="task_state" value={{ doc.get('upload_status') }}>
+                    <input type="hidden" id="task_id" name="task_id" value={{ doc.get('upload_id') }}>
+                    <input type="submit" id="cancel_button" value="Cancel">
+                  </form>
+                </td>   
             </tr>
         {% endfor %}    
+        </tbody>
     </table>  
 
     <h3>Downloads</h3>
-    <table border="1" style="width:100%">
-        <tbody>
-            <tr style="background-color:gainsboro">
-                <th>Task Seq</th>
-                <th>Task Owner</th>
-                <th>Task Init</th>
-                <th>Render ID</th>
-                <th>Render Status</th>
-                <th>Download ID</th>
-                <th>Download Status</th>
-            </tr>
-        </tbody>
+    <table id="download" border="1" style="width:100%">
+        <tr style="background-color:gainsboro">
+            <th>Task Seq</th>
+            <th>Task Owner</th>
+            <th>Download start</th>
+            <th>Render ID</th>
+            <th>Render Status</th>
+            <th>Download ID</th>
+            <th>Download Status</th>
+            <th></th>
+        </tr>
         
+        <tbody>
         {% for doc in current_down_tasks %}
             {% if doc['download_status'] == 'active' %}
-                <tr style="background-color:aquamarine">
+            <tr style="background-color:aquamarine">
             {% else %}
-                <tr style="background-color:lightcyan">
+            <tr style="background-color:lightcyan">
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <td>{{ doc.get('download_init') }}</td>
                 <td>{{ doc.get('jid') }}</td>
                 <td></td>
                 <td>{{ doc.get('download_id') }}</td>
                 <td>{{ doc.get('download_status') }}</td>
+                <td>
+                  <form action="/cancel/", method="POST", name="cancel_form">
+                    <input type="hidden" id="task_type" name="task_type" value="down">
+                    <input type="hidden" id="task_state" name="task_state" value={{ doc.get('download_status') }}>
+                    <input type="hidden" id="task_id" name="task_id" value= {{ doc.get('download_id') }}>
+                    <input type="submit" id="cancel_button" value="Cancel">
+                  </form>
+                </td>   
             </tr>
         {% endfor %}    
+        </tbody>
     </table>  
 
     <h2>Failed Tasks</h2>
@@ -129,25 +148,34 @@
             <tr style="background-color:gainsboro">
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
+                <!--<th>Task Init</th>-->
                 <th>Upload ID</th>
-                <th>Upload Status</th>
+
+                <th>Upload Start</th>
+                <!--<th>Upload Status</th>-->
+                <th>Upload Done</th>
+
                 <th>Spool ID</th>
-                <th>Spool Status</th>
+                <!--<th>Spool Status</th>-->
             </tr>
         </tbody>
         
         {% for doc in done_up_tasks %}
-            <tr style="background-color:lightgray">
+          <tr style="background-color:lightcyan">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <!--<td>{{ doc.get('task_init') }}</td>-->
                 <td>{{ doc.get('upload_id') }}</td>
-                <td>{{ doc.get('upload_status') }}</td>
+
+                <td>{{ doc.get('upload_start') }}</td>
+                <!--<td>{{ doc.get('upload_status') }}</td>-->
+                <td>{{ doc.get('upload_stop') }}</td>
+
                 <td>{{ doc.get('spool_id') }} </td>
-                <td>{{ doc.get('spool_status') }}</td>
+                <!--<td>{{ doc.get('spool_status') }}</td>-->
             </tr>
         {% endfor %}    
+
     </table>  
 
     <h3>Downloads</h3>
@@ -156,23 +184,30 @@
             <tr style="background-color:gainsboro">
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
-                <th>Render ID</th>
+                <!--<th>Task Init</th>-->
+                <th>Render ID</th>               
                 <th>Render Status</th>
                 <th>Download ID</th>
-                <th>Download Status</th>
+
+                <th>Download Start</th>
+                <th>Download Done</th>                
+                <!--<th>Download Status</th>-->                
+
             </tr>
         </tbody>
         
         {% for doc in done_down_tasks %}
-            <tr style="background-color:lightgray">
+            <tr style="background-color:lightcyan">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <!--<td>{{ doc.get('task_init') }}</td>-->
                 <td>{{ doc.get('jid') }}</td>
                 <td></td>
                 <td>{{ doc.get('download_id') }}</td>
-                <td>{{ doc.get('download_status') }}</td>
+
+                <td>{{ doc.get('download_start') }}</td>
+                <td>{{ doc.get('download_stop') }}</td>
+                <!--<td>{{ doc.get('download_status') }}</td>-->
             </tr>
         {% endfor %}    
     </table>  

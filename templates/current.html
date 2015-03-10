@@ -11,11 +11,15 @@
             <tr style="background-color:gainsboro">
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
+                <!--<th>Task Init</th>-->
                 <th>Upload ID</th>
-                <th>Upload Status</th>
-                <th>Spool ID</th>
-                <th>Spool Status</th>
+
+                <!--<th>Upload Start</th>-->
+                <!--<th>Upload Status</th>-->
+                <th>Upload Done</th>
+
+                <!--<th>Spool ID</th>-->
+                <!--<th>Spool Status</th>-->
             </tr>
         </tbody>
         
@@ -29,11 +33,15 @@
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <!--<td>{{ doc.get('task_init') }}</td>-->
                 <td>{{ doc.get('upload_id') }}</td>
-                <td>{{ doc.get('upload_status') }}</td>
-                <td>{{ doc.get('spool_id') }} </td>
-                <td>{{ doc.get('spool_status') }}</td>
+
+                <!--<td>{{ doc.get('upload_start') }}</td>-->
+                <!--<td>{{ doc.get('upload_status') }}</td>-->
+                <td>{{ doc.get('upload_stop') }}</td>
+
+                <!--<td>{{ doc.get('spool_id') }} </td>-->
+                <!--<td>{{ doc.get('spool_status') }}</td>-->
             </tr>
         {% endfor %}    
 
@@ -45,11 +53,15 @@
             <tr style="background-color:gainsboro">
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
-                <th>Render ID</th>
-                <th>Render Status</th>
+                <!--<th>Task Init</th>-->
+                <th>Render ID</th>               
+                <!--<th>Render Status</th>-->
                 <th>Download ID</th>
-                <th>Download Status</th>
+
+                <!--<th>Download Start</th>-->
+                <th>Download Done</th>                
+                <!--<th>Download Status</th>-->                
+
             </tr>
         </tbody>
         
@@ -63,11 +75,14 @@
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <!--<td>{{ doc.get('task_init') }}</td>-->
                 <td>{{ doc.get('jid') }}</td>
-                <td></td>
+                <!--<td></td>-->
                 <td>{{ doc.get('download_id') }}</td>
-                <td>{{ doc.get('download_status') }}</td>
+
+                <!--<td>{{ doc.get('download_start') }}</td>-->
+                <td>{{ doc.get('download_stop') }}</td>
+                <!--<td>{{ doc.get('download_status') }}</td>-->
             </tr>
         {% endfor %}    
 
