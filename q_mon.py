@@ -45,9 +45,11 @@ def cancel_task():
 
 @app.route('/')
 def index(name='all'):
-    (current_up_tasks, current_down_tasks) = queue_data(arg='current', name=name, stream='up_down')
-    (failed_up_tasks, failed_down_tasks) = queue_data(arg='failed', name=name, stream='up_down')
-    (done_up_tasks, done_down_tasks) = queue_data(arg='done', name=name, stream='up_down')
+    delta=7
+    (current_up_tasks, current_down_tasks) = queue_data(arg='current', name=name, stream='up_down', delta=delta)
+    (failed_up_tasks, failed_down_tasks) = queue_data(arg='failed', name=name, stream='up_down', delta=delta)
+    (done_up_tasks, done_down_tasks) = queue_data(arg='done', name=name, stream='up_down', delta=delta)
+
     context = {'type' : 'Index', 'current_up_tasks' : current_up_tasks, 'current_down_tasks' : current_down_tasks, 'failed_up_tasks' : failed_up_tasks, 'failed_down_tasks' : failed_down_tasks, 'done_up_tasks' : done_up_tasks, 'done_down_tasks' : done_down_tasks}
 
     return render_template("index.html", **context)
@@ -101,7 +103,7 @@ def done():
 
     (done_up_tasks, done_down_tasks) = queue_data(arg='done', name=name, stream=stream, delta=delta)
 
-    context = {'type' : 'Done', 'up_tasks' : done_up_tasks, 'down_tasks' : done_down_tasks, 'delta': delta}
+    context = {'type' : 'Done', 'stream' : stream, 'up_tasks' : done_up_tasks, 'down_tasks' : done_down_tasks, 'delta': delta}
     return render_template("current.html", **context)
 
 def queue_data(**kwargs):
