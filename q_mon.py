@@ -26,8 +26,6 @@ tq.setEngineClientParam(hostname="113.107.235.11", port=1503, user='abhishek', d
 
 app = Flask(__name__)
 
-admin_list = ['abhishek', 'anshul', 'sayeed', 'oliver', 'arif']
-
 @app.route('/cancel/', methods=['POST'])
 def cancel_task():
     type = request.form['task_type']
@@ -56,18 +54,6 @@ def index(name='all'):
 
     return render_template("index.html", **context)
 
-@app.route('/active')
-@app.route('/active/<string:name>')
-def active(name='all'):
-    context = {'type' : 'Active'}
-    return render_template("q_mon.html", **context)
-
-@app.route('/pending')
-@app.route('/pending/<string:name>')
-def pending(name='all'):
-    context = {'type' : 'Pending'}
-    return render_template("q_mon.html", **context)
-
 @app.route('/failed')
 @app.route('/failed/<string:name>')
 def failed(name='all'):
@@ -80,10 +66,14 @@ def failed(name='all'):
 @app.route('/current')
 @app.route('/current/<string:name>')
 def current(name='all'):
-    delta = 7
-    (up_tasks, down_tasks) = queue_data(arg='current', name=name, stream='up_down', delta=delta)
+    stream = request.args.get('stream')
+    if not stream:
+        stream = 'up_down'
 
-    context = {'type' : 'Current', 'up_tasks' : up_tasks, 'down_tasks' : down_tasks}
+    delta = 7
+    (up_tasks, down_tasks) = queue_data(arg='current', name=name, stream=stream, delta=delta)
+
+    context = {'type' : 'Current', 'stream' : stream, 'up_tasks' : up_tasks, 'down_tasks' : down_tasks, 'delta': delta}
     return render_template("current.html", **context)
   
 @app.route('/done')
@@ -111,18 +101,6 @@ def done():
 
     context = {'type' : 'Done', 'stream' : stream, 'up_tasks' : done_up_tasks, 'down_tasks' : done_down_tasks, 'delta': delta}
     return render_template("current.html", **context)
-
-@app.route('/query')
-def query():
-    stream=request.args.get("stream")
-    if not stream:
-        stream='down'
-
-    time=request.args.get("time")    
-    if not time:
-        time='yest'
-
-    return redirect('/done?stream={0}&time_frame={1}'.format(stream, time), code=307)
 
 
 def queue_data(**kwargs):
@@ -428,6 +406,32 @@ def queue_status():
    coll = client.queue.tasks
    today_tasks = coll.find({'task_init' : {'gt' : today}})
    return string(coll)
+'''
+
+'''
+@app.route('/active')
+@app.route('/active/<string:name>')
+def active(name='all'):
+    context = {'type' : 'Active'}
+    return render_template("q_mon.html", **context)
+
+@app.route('/pending')
+@app.route('/pending/<string:name>')
+def pending(name='all'):
+    context = {'type' : 'Pending'}
+    return render_template("q_mon.html", **context)
+
+@app.route('/query')
+def query():
+    stream=request.args.get("stream")
+    if not stream:
+        stream='down'
+
+    time=request.args.get("time")    
+    if not time:
+        time='yest'
+
+    return redirect('/done?stream={0}&time_frame={1}'.format(stream, time), code=307)    
 '''
 
 @app.route('/date')

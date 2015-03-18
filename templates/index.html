@@ -9,7 +9,26 @@
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="../dist/semantic.js"></script>
-    <script src="homepage.js"></script>   
+
+    <script src={{ url_for('static', filename='homepage.js') }}></script>   
+    <script type="text/javascript" src={{ url_for('static', filename='jquery.tablesorter.js') }}></script> 
+
+    <style type="text/css">
+      /*
+        table thead th{
+            background-image: url({{ url_for('static', filename='bg.gif') }});
+            background-repeat: no-repeat;
+            background-position: center right;
+            cursor: pointer;
+        }
+        .ascending{
+            background-image: url({{ url_for('static', filename='asc.gif') }});
+        }
+        .decending{
+            background-image: url({{ url_for('static', filename='desc.gif') }});
+        }
+      */
+    </style>
 
 </head>
 <body>
@@ -18,7 +37,8 @@
     <a class="ui ribbon label"><h3 class="ui header">Active Tasks</h3></a>
     <!--<h2 class="ui header">Active Tasks</h3>-->
     <h3 class="ui header">Uploads</h3>
-    <table class="ui celled striped table" id="upload">
+    <table class="ui celled striped table tablesorter" id="upload_active">
+      <thead>
         <tr>
             <th>Task Seq</th>
             <th>Task Owner</th>
@@ -29,8 +49,9 @@
             <th>Spool Status</th>
             <th></th>
         </tr>
+      </thead>  
         
-        <tbody>
+      <tbody>
         {% for doc in current_up_tasks %}
             {% if doc['upload_status'] == 'active' %}
             <tr class="positive">
@@ -54,11 +75,12 @@
                 </td>   
             </tr>
         {% endfor %}    
-        </tbody>
+      </tbody>
     </table>
 
     <h3 class="ui header">Downloads</h3>
-    <table class="ui celled striped table" id="download" >
+    <table class="ui celled striped table" id="download_active" >
+      <thead>
         <tr>
             <th>Task Seq</th>
             <th>Task Owner</th>
@@ -69,7 +91,8 @@
             <th>Download Status</th>
             <th></th>
         </tr>
-        
+      </thead>  
+
         <tbody>
         {% for doc in current_down_tasks %}
             {% if doc['download_status'] == 'active' %}
@@ -94,15 +117,15 @@
                 </td>   
             </tr>
         {% endfor %}    
-        </tbody>
+      </tbody>
     </table>  
     </div>
 
     <div class="ui segment">
     <a class="ui ribbon label"><h3 class="ui header">Failed Tasks</h3></a>
     <h3 class="ui header">Uploads</h3>
-    <table class="ui celled striped table" >
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="upload_failed">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -112,8 +135,9 @@
                 <th>Spool ID</th>
                 <th>Spool Status</th>
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in failed_up_tasks %}
             <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
@@ -125,11 +149,12 @@
                 <td>{{ doc.get('spool_status') }}</td>
             </tr>
         {% endfor %}    
+        </tbody>    
     </table>  
 
     <h3 class="ui header">Downloads</h3>
-    <table class="ui celled striped table" >
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="download_failed">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -139,8 +164,9 @@
                 <th>Download ID</th>
                 <th>Download Status</th>
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in failed_down_tasks %}
             <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
@@ -152,14 +178,15 @@
                 <td>{{ doc.get('download_status') }}</td>
             </tr>
         {% endfor %}    
+        </tbody>    
     </table>  
     </div>
 
     <div class="ui segment">
     <a class="ui ribbon label"><h3 class="ui header">Done Tasks</h3></a>
     <h3 class="ui header">Uploads</h3>
-    <table class="ui celled striped table" >
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="upload_done">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -173,8 +200,9 @@
                 <th>Spool ID</th>
                 <!--<th>Spool Status</th>-->
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in done_up_tasks %}
           <tr class="info">
                 <td>{{ doc.get('task_id') }}</td>
@@ -190,12 +218,13 @@
                 <!--<td>{{ doc.get('spool_status') }}</td>-->
             </tr>
         {% endfor %}    
+        </tbody>
 
     </table>  
 
     <h3 class="ui header" >Downloads</h3>
-    <table class="ui celled striped table">
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="download_done">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -209,8 +238,9 @@
                 <!--<th>Download Status</th>-->                
 
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in done_down_tasks %}
             <tr class="info">
                 <td>{{ doc.get('task_id') }}</td>
@@ -224,7 +254,8 @@
                 <td>{{ doc.get('download_stop') }}</td>
                 <!--<td>{{ doc.get('download_status') }}</td>-->
             </tr>
-        {% endfor %}    
+        {% endfor %}   
+        </tbody> 
     </table>  
     </div>
 

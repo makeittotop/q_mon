@@ -8,7 +8,26 @@
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="../dist/semantic.js"></script>
-    <script src="homepage.js"></script>   
+
+    <script src={{ url_for('static', filename='homepage.js') }}></script>   
+    <script type="text/javascript" src={{ url_for('static', filename='jquery.tablesorter.js') }}></script> 
+
+    <style type="text/css">
+      /*
+        table thead th{
+            background-image: url({{ url_for('static', filename='bg.gif') }});
+            background-repeat: no-repeat;
+            background-position: center right;
+            cursor: pointer;
+        }
+        .ascending{
+            background-image: url({{ url_for('static', filename='asc.gif') }});
+        }
+        .decending{
+            background-image: url({{ url_for('static', filename='desc.gif') }});
+        }
+      */
+    </style>
 
 </head>
 <body>
@@ -28,8 +47,8 @@
 {% if stream == 'up_down' or stream == 'up' %}
     <h3 class="ui header">Uploads</h3>
     <div ui two column stackable center aligned grid segment>
-    <table class="ui celled striped table">
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="upload">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -43,8 +62,9 @@
                 <!--<th>Spool ID</th>-->
                 <!--<th>Spool Status</th>-->
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in up_tasks %}
             {% if doc['upload_status'] == 'active' %}
                 <tr class="positive">
@@ -65,16 +85,16 @@
                 <!--<td>{{ doc.get('spool_id') }} </td>-->
                 <!--<td>{{ doc.get('spool_status') }}</td>-->
             </tr>
-        {% endfor %}    
-
+        {% endfor %}   
+        </tbody>
     </table>  
 </div>
 {% endif %}
 
 {% if stream == 'up_down' or stream == 'down' %}
     <h3 class="ui header">Downloads</h3>
-    <table class="ui celled striped table">
-        <tbody>
+    <table class="ui celled striped table tablesorter" id="download">
+        <thead>
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
@@ -88,8 +108,9 @@
                 <!--<th>Download Status</th>-->                
 
             </tr>
-        </tbody>
+        </thead>
         
+        <tbody>
         {% for doc in down_tasks %}
             {% if doc['download_status'] == 'active' %}
                 <tr class="positive">
@@ -109,7 +130,8 @@
                 <td>{{ doc.get('download_stop') }}</td>
                 <!--<td>{{ doc.get('download_status') }}</td>-->
             </tr>
-        {% endfor %}    
+        {% endfor %}   
+        </tbody> 
 
     </table>
  {% endif %}
