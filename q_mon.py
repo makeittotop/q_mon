@@ -26,6 +26,8 @@ tq.setEngineClientParam(hostname="113.107.235.11", port=1503, user='abhishek', d
 
 app = Flask(__name__)
 
+admin_list = ['abhishek', 'anshul', 'sayeed', 'oliver', 'arif']
+
 @app.route('/cancel/', methods=['POST'])
 def cancel_task():
     type = request.form['task_type']
@@ -110,6 +112,19 @@ def done():
     context = {'type' : 'Done', 'stream' : stream, 'up_tasks' : done_up_tasks, 'down_tasks' : done_down_tasks, 'delta': delta}
     return render_template("current.html", **context)
 
+@app.route('/query')
+def query():
+    stream=request.args.get("stream")
+    if not stream:
+        stream='down'
+
+    time=request.args.get("time")    
+    if not time:
+        time='yest'
+
+    return redirect('/done?stream={0}&time_frame={1}'.format(stream, time), code=307)
+
+
 def queue_data(**kwargs):
     def sorter(d):
         if not d:
@@ -136,13 +151,13 @@ def queue_data(**kwargs):
     if arg == 'current':
         # Ugly hack to get per person upload / download items
         if name == 'all':
-            query_dict_up = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] } ] }
-            query_dict_down = { '$and' : [ { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] } ] }
+            query_dict_up = { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] }
+            query_dict_down = { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] }
             #query_dict = { '$and' : [ { 'task_init' : { '$gt' : d } }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' }, { 'download_status' : 'pending' }, { 'download_status' : 'active' }, {'spool_status' : 'pending' } ] } ] }
             #query_dict = {'task_init': {'$gt' : d}, 'upload_status' : 'pending', 'dowmload_status' : 'pending', 'spool_status' : 'pending'}
         else:
-            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] } ] }
-            query_dict_down = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'task_init' : { '$gt' : d } } ] }, { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] } ] }
+            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] }, ] }
+            query_dict_down = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] }, ] }
 
 
         if 'up_down' in stream or 'up' in stream:
@@ -152,7 +167,12 @@ def queue_data(**kwargs):
             for doc in docs:
                 task_doc = {}
                 task_doc['task_id'] = doc['task_id']
-                task_doc['task_owner'] = doc['task_owner']
+
+                try:
+                    task_doc['task_owner'] = doc['task_owner']
+                except:
+                    task_doc['task_owner'] = 'N/A'
+
                 task_doc['task_init'] = doc['task_init']
 
                 try:
