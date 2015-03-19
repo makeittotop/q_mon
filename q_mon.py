@@ -151,8 +151,11 @@ def queue_data(**kwargs):
                 except:
                     task_doc['task_owner'] = 'N/A'
 
-                task_doc['task_init'] = doc['task_init']
-
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
+                    
                 try:
                     task_doc['upload_start'] = doc['upload_start']
                 except:
@@ -188,7 +191,10 @@ def queue_data(**kwargs):
                 except:
                     task_doc['task_owner'] = 'N/A'
 
-                task_doc['task_init'] = doc['task_init']
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
 
                 try:
                     task_doc['download_start'] = doc['download_start']
@@ -231,8 +237,16 @@ def queue_data(**kwargs):
             for doc in docs:
                 task_doc = {}
                 task_doc['task_id'] = doc['task_id']
-                task_doc['task_owner'] = doc['task_owner']
-                task_doc['task_init'] = doc['task_init']
+
+                try:
+                    task_doc['task_owner'] = doc['task_owner']
+                except:
+                    task_doc['task_owner'] = None           
+
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
 
                 try:
                     task_doc['upload_start'] = doc['upload_start']
@@ -262,8 +276,16 @@ def queue_data(**kwargs):
             for doc in docs:
                 task_doc = {}
                 task_doc['task_id'] = doc['task_id']
-                task_doc['task_owner'] = doc['task_owner']
-                task_doc['task_init'] = doc['task_init']
+
+                try:
+                    task_doc['task_owner'] = doc['task_owner']
+                except:
+                    task_doc['task_owner'] = None
+
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
 
                 try:
                     task_doc['download_start'] = doc['download_start']
@@ -306,8 +328,16 @@ def queue_data(**kwargs):
             for doc in docs:
                 task_doc = {}
                 task_doc['task_id'] = doc['task_id']
-                task_doc['task_owner'] = doc['task_owner']
-                task_doc['task_init'] = doc['task_init']
+
+                try:
+                    task_doc['task_owner'] = doc['task_owner']
+                except:
+                    task_doc['task_owner'] = None         
+
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
 
                 try:
                     task_doc['upload_start'] = doc['upload_start']
@@ -341,8 +371,16 @@ def queue_data(**kwargs):
             for doc in docs:
                 task_doc = {}
                 task_doc['task_id'] = doc['task_id']
-                task_doc['task_owner'] = doc['task_owner']
-                task_doc['task_init'] = doc['task_init']
+
+                try:
+                    task_doc['task_owner'] = doc['task_owner']
+                except:
+                    task_doc['task_owner'] = None       
+
+                try:
+                    task_doc['task_init'] = doc['task_init']
+                except:
+                    task_doc['task_init'] = None  
 
                 try:
                     task_doc['download_start'] = doc['download_start']
@@ -440,5 +478,5 @@ def get_date_time():
     return d.strftime("%d-%m-%Y")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=55556, debug=True)
+    app.run(host='0.0.0.0', port=55555, debug=True)
 
