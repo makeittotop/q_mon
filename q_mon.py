@@ -155,7 +155,7 @@ def queue_data(**kwargs):
                     task_doc['task_init'] = doc['task_init']
                 except:
                     task_doc['task_init'] = None  
-                    
+
                 try:
                     task_doc['upload_start'] = doc['upload_start']
                 except:
@@ -165,7 +165,12 @@ def queue_data(**kwargs):
                     task_doc['upload_stop'] = doc['upload_stop']
                 except:
                     task_doc['upload_stop'] = None   
-                               
+                              
+                try:
+                    task_doc['upload_retry_count'] = doc['upload_retry_count']
+                except:
+                    task_doc['upload_retry_count'] = 0
+                                              
                 task_doc['upload_id'] = doc.get('upload_id')
                 task_doc['upload_status'] = doc.get('upload_status')
                 task_doc['upload_exception'] = doc.get('upload_exception')
@@ -205,6 +210,11 @@ def queue_data(**kwargs):
                     task_doc['download_stop'] = doc['download_stop']
                 except:
                     task_doc['download_stop'] = None   
+
+                try:
+                    task_doc['download_retry_count'] = doc['download_retry_count']
+                except:
+                    task_doc['download_retry_count'] = 0
 
                 try:
                     task_doc['jid'] = json.loads(doc.get('spool_retval')).get('jid')
@@ -258,6 +268,11 @@ def queue_data(**kwargs):
                 except:
                     task_doc['upload_stop'] = None 
 
+                try:
+                    task_doc['upload_retry_count'] = doc['upload_retry_count']
+                except:
+                    task_doc['upload_retry_count'] = 0
+
                 task_doc['upload_id'] = doc.get('upload_id')
                 task_doc['upload_status'] = doc.get('upload_status')
                 task_doc['upload_exception'] = doc.get('upload_exception')
@@ -296,6 +311,11 @@ def queue_data(**kwargs):
                     task_doc['download_stop'] = doc['download_stop']
                 except:
                     task_doc['download_stop'] = None   
+
+                try:
+                    task_doc['download_retry_count'] = doc['download_retry_count']
+                except:
+                    task_doc['download_retry_count'] = 0
 
                 try:
                     task_doc['jid'] = json.loads(doc.get('spool_retval')).get('jid')
@@ -349,6 +369,11 @@ def queue_data(**kwargs):
                 except:
                     task_doc['upload_stop'] = None 
                                
+                try:
+                    task_doc['upload_retry_count'] = doc['upload_retry_count']
+                except:
+                    task_doc['upload_retry_count'] = 0
+
                 task_doc['upload_id'] = doc.get('upload_id')
                 task_doc['upload_status'] = doc.get('upload_status')
                 task_doc['upload_exception'] = doc.get('upload_exception')
@@ -391,6 +416,11 @@ def queue_data(**kwargs):
                     task_doc['download_stop'] = doc['download_stop']
                 except:
                     task_doc['download_stop'] = None   
+
+                try:
+                    task_doc['download_retry_count'] = doc['download_retry_count']
+                except:
+                    task_doc['download_retry_count'] = 0
 
                 try:
                     task_doc['jid'] = json.loads(doc.get('spool_retval')).get('jid')
@@ -478,5 +508,5 @@ def get_date_time():
     return d.strftime("%d-%m-%Y")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=55555, debug=True)
+    app.run(host='0.0.0.0', port=55556, debug=True)
 

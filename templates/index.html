@@ -44,6 +44,7 @@
             <th>Task Owner</th>
             <th>Upload start</th>
             <th>Upload ID</th>
+            <th>Upload Retry #</th>
             <th>Upload Status</th>
             <th>Spool ID</th>
             <th>Spool Status</th>
@@ -62,6 +63,7 @@
                 <td>{{ doc.get('task_owner') }}</td>
                 <td>{{ doc.get('upload_start') }}</td>
                 <td>{{ doc.get('upload_id') }}</td>
+                <td>{{ doc.get('upload_retry_count') }}</td>                
                 <td>{{ doc.get('upload_status') }}</td>
                 <td>{{ doc.get('spool_id') }} </td>
                 <td>{{ doc.get('spool_status') }}</td>
@@ -88,6 +90,7 @@
             <th>Render ID</th>
             <th>Render Status</th>
             <th>Download ID</th>
+            <th>Download Retry #</th>
             <th>Download Status</th>
             <th></th>
         </tr>
@@ -102,10 +105,11 @@
             {% endif %}
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('download_init') }}</td>
+                <td>{{ doc.get('download_start') }}</td>
                 <td>{{ doc.get('jid') }}</td>
                 <td></td>
                 <td>{{ doc.get('download_id') }}</td>
+                <td>{{ doc.get('download_retry_count') }}</td>                
                 <td>{{ doc.get('download_status') }}</td>
                 <td>
                   <form action="/cancel/", method="POST", name="cancel_form">
@@ -129,8 +133,9 @@
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
+                <th>Upload start</th>
                 <th>Upload ID</th>
+                <th>Upload Retry #</th>
                 <th>Upload Status</th>
                 <th>Spool ID</th>
                 <th>Spool Status</th>
@@ -142,8 +147,9 @@
             <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
+                <td>{{ doc.get('upload_start') }}</td>
                 <td>{{ doc.get('upload_id') }}</td>
+                <td>{{ doc.get('upload_retry_count') }}</td>                
                 <td>{{ doc.get('upload_status') }}</td>
                 <td>{{ doc.get('spool_id') }} </td>
                 <td>{{ doc.get('spool_status') }}</td>
@@ -158,10 +164,9 @@
             <tr>
                 <th>Task Seq</th>
                 <th>Task Owner</th>
-                <th>Task Init</th>
-                <th>Render ID</th>
-                <th>Render Status</th>
+                <th>Download start</th>
                 <th>Download ID</th>
+                <th>Download Retry #</th>                
                 <th>Download Status</th>
             </tr>
         </thead>
@@ -171,10 +176,9 @@
             <tr class="negative">
                 <td>{{ doc.get('task_id') }}</td>
                 <td>{{ doc.get('task_owner') }}</td>
-                <td>{{ doc.get('task_init') }}</td>
-                <td>{{ doc.get('jid') }}</td>
-                <td></td>
+                <td>{{ doc.get('download_start') }}</td>
                 <td>{{ doc.get('download_id') }}</td>
+                <td>{{ doc.get('download_retry_count') }}</td>                
                 <td>{{ doc.get('download_status') }}</td>
             </tr>
         {% endfor %}    
@@ -192,6 +196,7 @@
                 <th>Task Owner</th>
                 <!--<th>Task Init</th>-->
                 <th>Upload ID</th>
+                <th>Upload Retry #</th>
 
                 <th>Upload Start</th>
                 <!--<th>Upload Status</th>-->
@@ -209,6 +214,7 @@
                 <td>{{ doc.get('task_owner') }}</td>
                 <!--<td>{{ doc.get('task_init') }}</td>-->
                 <td>{{ doc.get('upload_id') }}</td>
+                <td>{{ doc.get('upload_retry_count') }}</td>                
 
                 <td>{{ doc.get('upload_start') }}</td>
                 <!--<td>{{ doc.get('upload_status') }}</td>-->
@@ -232,6 +238,7 @@
                 <th>Render ID</th>               
                 <th>Render Status</th>
                 <th>Download ID</th>
+                <th>Download Retry #</th>                
 
                 <th>Download Start</th>
                 <th>Download Done</th>                
@@ -249,6 +256,7 @@
                 <td>{{ doc.get('jid') }}</td>
                 <td></td>
                 <td>{{ doc.get('download_id') }}</td>
+                <td>{{ doc.get('download_retry_count') }}</td>
 
                 <td>{{ doc.get('download_start') }}</td>
                 <td>{{ doc.get('download_stop') }}</td>
