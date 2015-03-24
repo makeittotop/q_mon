@@ -44,8 +44,11 @@ def cancel_task():
     return redirect('/')
 
 @app.route('/')
-def index(name='all'):
+def index():
     name = request.args.get('user')
+    if not name:
+        name = 'all'
+
     delta=7
     (current_up_tasks, current_down_tasks) = queue_data(arg='current', name=name, stream='up_down', delta=delta)
     (failed_up_tasks, failed_down_tasks) = queue_data(arg='failed', name=name, stream='up_down', delta=delta)
@@ -57,8 +60,11 @@ def index(name='all'):
 
 @app.route('/failed')
 #@app.route('/failed/<string:name>')
-def failed(name='all'):
+def failed():
     name = request.args.get('user')
+    if not name:
+        name = 'all'
+
     delta = 7
     (up_tasks, down_tasks) = queue_data(arg='failed', name=name, stream='up_down', delta=delta)
 
@@ -67,8 +73,11 @@ def failed(name='all'):
 
 @app.route('/current')
 #@app.route('/current/<string:name>')
-def current(name='all'):
+def current():
     name = request.args.get('user')
+    if not name:
+        name = 'all'
+            
     stream = request.args.get('stream')
     if not stream:
         stream = 'up_down'
@@ -81,7 +90,7 @@ def current(name='all'):
   
 @app.route('/done')
 #@app.route('/done/<string:name>')
-def done(name='all'):
+def done():
     name = request.args.get('user')
     if not name:
         name = 'all'
