@@ -141,13 +141,13 @@ def queue_data(**kwargs):
     if arg == 'current':
         # Ugly hack to get per person upload / download items
         if name == 'all':
-            query_dict_up = { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] }
-            query_dict_down = { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] }
+            query_dict_up = { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' }, { 'upload_status' : 'retry' }] }
+            query_dict_down = { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' }, { 'download_status' : 'retry' } ] }
             #query_dict = { '$and' : [ { 'task_init' : { '$gt' : d } }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' }, { 'download_status' : 'pending' }, { 'download_status' : 'active' }, {'spool_status' : 'pending' } ] } ] }
             #query_dict = {'task_init': {'$gt' : d}, 'upload_status' : 'pending', 'dowmload_status' : 'pending', 'spool_status' : 'pending'}
         else:
-            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' } ] }, ] }
-            query_dict_down = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' } ] }, ] }
+            query_dict_up = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'upload_status' : 'pending' }, { 'upload_status' : 'active' }, { 'upload_status' : 'retry' } ] }, ] }
+            query_dict_down = { '$and' : [ { 'task_owner' : name }, { '$or' : [ { 'download_status' : 'pending' }, { 'download_status' : 'active' }, { 'download_status' : 'retry' } ] }, ] }
 
 
         if 'up_down' in stream or 'up' in stream:
