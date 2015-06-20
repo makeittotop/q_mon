@@ -43,6 +43,21 @@ def cancel_task():
 
     return redirect('/')
 
+@app.route('/admin')
+def admin():
+    name = request.args.get('user')
+    if not name:
+        name = 'all'
+
+    delta=7
+    (current_up_tasks, current_down_tasks) = queue_data(arg='current', name=name, stream='up_down', delta=delta)
+    (failed_up_tasks, failed_down_tasks) = queue_data(arg='failed', name=name, stream='up_down', delta=delta)
+    (done_up_tasks, done_down_tasks) = queue_data(arg='done', name=name, stream='up_down', delta=delta)
+
+    context = {'type' : 'Admin', 'current_up_tasks' : current_up_tasks, 'current_down_tasks' : current_down_tasks, 'failed_up_tasks' : failed_up_tasks, 'failed_down_tasks' : failed_down_tasks, 'done_up_tasks' : done_up_tasks, 'done_down_tasks' : done_down_tasks}
+
+    return render_template("admin.html", **context)
+
 @app.route('/')
 def index():
     name = request.args.get('user')

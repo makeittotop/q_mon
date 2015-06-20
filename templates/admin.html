@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Queue Monitor</title>
-    <meta http-equiv="refresh" content="120">
+    <meta http-equiv="refresh" content="180">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.1/semantic.css">
     <link rel="stylesheet" type="text/css" href="homepage.css">
@@ -48,6 +48,7 @@
             <th>Upload Status</th>
             <th>Spool ID</th>
             <th>Spool Status</th>
+            <th></th>
         </tr>
       </thead>  
         
@@ -65,7 +66,15 @@
                 <td>{{ doc.get('upload_retry_count') }}</td>                
                 <td>{{ doc.get('upload_status') }}</td>
                 <td>{{ doc.get('spool_id') }} </td>
-                <td>{{ doc.get('spool_status') }}</td> 
+                <td>{{ doc.get('spool_status') }}</td>
+                <td>
+                  <form action="/cancel/", method="POST", name="cancel_form">
+                    <input type="hidden" id="task_type" name="task_type" value="up">
+                    <input type="hidden" id="task_state" name="task_state" value={{ doc.get('upload_status') }}>
+                    <input type="hidden" id="task_id" name="task_id" value={{ doc.get('upload_id') }}>
+                    <input class="ui button" type="submit" id="cancel_button" value="Cancel">
+                  </form>
+                </td>   
             </tr>
         {% endfor %}    
       </tbody>
@@ -83,6 +92,7 @@
             <th>Download ID</th>
             <th>Download Retry #</th>
             <th>Download Status</th>
+            <th></th>
         </tr>
       </thead>  
 
@@ -99,8 +109,16 @@
                 <td>{{ doc.get('jid') }}</td>
                 <td></td>
                 <td>{{ doc.get('download_id') }}</td>
-                <td>{{ doc.get('download_retry_count') }}</td>
-                <td>{{ doc.get('download_status') }}</td>  
+                <td>{{ doc.get('download_retry_count') }}</td>                
+                <td>{{ doc.get('download_status') }}</td>
+                <td>
+                  <form action="/cancel/", method="POST", name="cancel_form">
+                    <input type="hidden" id="task_type" name="task_type" value="down">
+                    <input type="hidden" id="task_state" name="task_state" value={{ doc.get('download_status') }}>
+                    <input type="hidden" id="task_id" name="task_id" value= {{ doc.get('download_id') }}>
+                    <input class="ui button" type="submit" id="cancel_button" value="Cancel">
+                  </form>
+                </td>   
             </tr>
         {% endfor %}    
       </tbody>
